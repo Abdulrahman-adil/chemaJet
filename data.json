@@ -1,0 +1,50 @@
+[
+    {
+        "id": "0133P",
+        "name_en": "Almond oil (sweet)",
+        "name_ar": "زيت اللوز الحلو",
+        "assay": "~ 70%",
+        "category": "Natural Oil",
+        "price": null
+    },
+    {
+        "id": "02218N",
+        "name_en": "Almond oil (Bitter)",
+        "name_ar": "زيت اللوز المر",
+        "assay": "~ 70%",
+        "category": "Natural Oil",
+        "price": null
+    },
+    {
+        "id": "01355",
+        "name_en": "Argan oil",
+        "name_ar": "زيت الأرغان",
+        "assay": "~ 70%",
+        "category": "Natural Oil",
+        "price": null
+    },
+    {
+        "id": "03405P",
+        "name_en": "Citronella Oil",
+        "name_ar": "زيت السترونيلا",
+        "assay": "~ 70%",
+        "category": "Natural Oil",
+        "price": null
+    },
+    {
+        "id": "1615N",
+        "name_en": "Peppermint oil",
+        "name_ar": "زيت النعناع",
+        "assay": "~ 70%",
+        "category": "Natural Oil",
+        "price": null
+    },
+    {
+        "id": "1858P",
+        "name_en": "Rose Oil",
+        "name_ar": "زيت الورد",
+        "assay": "~ 70%",
+        "category": "Natural Oil",
+        "price": null
+    }
+]
