@@ -5,7 +5,8 @@
         "name_ar": "زيت اللوز الحلو",
         "assay": "~ 70%",
         "category": "Natural Oil",
-        "price": null
+        "price": null,
+        "image": "/img/sweet-almond.jpg"
     },
     {
         "id": "02218N",
@@ -13,7 +14,8 @@
         "name_ar": "زيت اللوز المر",
         "assay": "~ 70%",
         "category": "Natural Oil",
-        "price": null
+        "price": null,
+        "image": "/img/almond-mor.jpg"
     },
     {
         "id": "01355",
@@ -21,7 +23,8 @@
         "name_ar": "زيت الأرغان",
         "assay": "~ 70%",
         "category": "Natural Oil",
-        "price": null
+        "price": null,
+        "image": "/img/argan.jpg"
     },
     {
         "id": "03405P",
@@ -29,7 +32,8 @@
         "name_ar": "زيت السترونيلا",
         "assay": "~ 70%",
         "category": "Natural Oil",
-        "price": null
+        "price": null,
+        "image": "/img/stronela-oil.jpg"
     },
     {
         "id": "1615N",
@@ -37,7 +41,8 @@
         "name_ar": "زيت النعناع",
         "assay": "~ 70%",
         "category": "Natural Oil",
-        "price": null
+        "price": null,
+        "image": "/img/ment.jpg"
     },
     {
         "id": "1858P",
@@ -45,6 +50,7 @@
         "name_ar": "زيت الورد",
         "assay": "~ 70%",
         "category": "Natural Oil",
-        "price": null
+        "price": null,
+        "image": "/img/ward.jpeg"
     }
 ]

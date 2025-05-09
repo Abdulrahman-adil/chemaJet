@@ -1,41 +1,49 @@
+/* Arabic Font */
+body {
+    font-family: 'Tajawal', sans-serif;
+}
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f9f6;
-            margin: 0;
-            padding: 0;
-            direction: rtl;
-        }
-        header {
-            background-color: #3e7c59;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-        .card {
-            background-color: #ffffff;
-            border: 1px solid #d4e1d4;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 10px;
-            width: 250px;
-            padding: 15px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        .card h3 {
-            margin: 10px 0 5px;
-            color: #3e7c59;
-        }
-        .card p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #333;
-        }
-  
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') no-repeat center center/cover;
+    min-height: 70vh;
+}
+
+/* Product Cards */
+.product-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Social Icons */
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+}
+
+.social-icons a:hover {
+    background-color: var(--bs-success);
+    color: white !important;
+}
+
+/* RTL Fixes */
+[dir="rtl"] .navbar-brand {
+    margin-right: 0;
+    margin-left: 1rem;
+}
+
+[dir="rtl"] .me-3 {
+    margin-right: 0 !important;
+    margin-left: 1rem !important;
+}
