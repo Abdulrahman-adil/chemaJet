@@ -6,7 +6,7 @@
         "assay": "~ 70%",
         "category": "Natural Oil",
         "price": null,
-        "image": "/img/sweet-almond.jpg"
+        "image": "./img/sweet-almond.jpg"
     },
     {
         "id": "02218N",
@@ -15,7 +15,7 @@
         "assay": "~ 70%",
         "category": "Natural Oil",
         "price": null,
-        "image": "/img/almond-mor.jpg"
+        "image": "./img/almond-mor.jpg"
     },
     {
         "id": "01355",
@@ -24,7 +24,7 @@
         "assay": "~ 70%",
         "category": "Natural Oil",
         "price": null,
-        "image": "/img/argan.jpg"
+        "image": "./img/argan.jpg"
     },
     {
         "id": "03405P",
@@ -33,7 +33,7 @@
         "assay": "~ 70%",
         "category": "Natural Oil",
         "price": null,
-        "image": "/img/stronela-oil.jpg"
+        "image": "./img/stronela-oil.jpg"
     },
     {
         "id": "1615N",
@@ -42,7 +42,7 @@
         "assay": "~ 70%",
         "category": "Natural Oil",
         "price": null,
-        "image": "/img/ment.jpg"
+        "image": "./img/ment.jpg"
     },
     {
         "id": "1858P",
@@ -51,6 +51,6 @@
         "assay": "~ 70%",
         "category": "Natural Oil",
         "price": null,
-        "image": "/img/ward.jpeg"
+        "image": "./img/ward.jpeg"
     }
 ]
