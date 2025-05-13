@@ -1,70 +1,128 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// import { db } from "./firebase-connection.js"; // تأكد من مسار الاتصال بـ Firebase
+
+// 1. firebaseConfig
+const firebaseConfig = {
+  apiKey: "AIzaSyDur0lP8dyY7Rmv40TS8BMtTe1DOdb44zw",
+  authDomain: "chemajet-store-f872f.firebaseapp.com",
+  projectId: "chemajet-store-f872f",
+  storageBucket: "chemajet-store-f872f.appspot.com",
+  messagingSenderId: "984454162444",
+  appId: "1:984454162444:web:e5a49ca4a7c9bebeec2629",
+  measurementId: "G-SYHPQFZFR3",
+};
+
+// 2. Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// 3. Get Firestore
+const db = getFirestore(app);
+
+// 4. Load and display products
+const container = document.getElementById("product-container");
+
 async function loadProducts() {
-  try {
-    const response = await fetch("natural_oils_sample.json");
-    const products = await response.json();
-    const container = document.getElementById("product-container");
-    const searchBox = document.getElementById("search-box");
+  const querySnapshot = await getDocs(collection(db, "products"));
+  querySnapshot((doc) => {
+    const product = doc.data();
+    container.innerHTML += `
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="${product.image}" class="card-img-top" alt="${
+      product.name_ar
+    }">
+          <div class="card-body text-center">
+            <h5 class="card-title">${product.name_ar}</h5>
+            <p class="card-text">${product.name_en}</p>
+            <p class="card-text">النسبة: ${product.assay}</p>
+            <p class="card-text">الكود: ${doc.id}</p>
+            <p class="card-text fw-bold text-success">السعر: ${
+              product.price ?? "غير محدد"
+            } جنيه</p>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+loadProducts();
 
-    function displayProducts(list) {
-      container.innerHTML = "";
-      if (list.length === 0) {
-        container.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                        <h3 class="text-muted">لا توجد نتائج</h3>
-                    </div>
-                `;
-        return;
-      }
+//=================
+// import {
+//   collection,
+//   addDoc,
+// } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// import { db } from "./firebase-connection.js"; // تأكد من مسار الاتصال بـ Firebase
 
-      list.forEach((product) => {
-        const col = document.createElement("div");
-        col.className = "col-md-4 col-lg-3 mb-4";
-        col.innerHTML = `
-                    <div class="card h-100 border-0 shadow-sm product-card">
-                        <img src="${product.image}" class="card-img-top" alt="${product.name_ar}">
-                        <div class="card-body">
-                            <h5 class="card-title text-success">${product.name_ar}</h5>
-                            <p class="card-text text-muted small">${product.name_en}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-light text-dark">${product.id}</span>
-                                <span class="text-warning">${product.assay}</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-0">
-                            <button class="btn btn-sm btn-success w-100">إضافة إلى السلة</button>
-                        </div>
-                    </div>
-                `;
-        container.appendChild(col);
-      });
+let products = [
+  {
+    sort: 1,
+    productName: "Product 1",
+    description: "test 2",
+    img: "./img/logo",
+  },
+  {
+    sort: 2,
+    productName: "Product 2",
+    description: "test 2",
+    img: "./img/logo",
+  },
+];
+
+async function addMultipleProducts(products) {
+  if (!Array.isArray(products)) {
+    console.error("❌ المدخلات يجب أن تكون مصفوفة من المنتجات");
+    return;
+  }
+
+  for (const product of products) {
+    try {
+      const docRef = await addDoc(collection(db, "products"), product);
+      console.log(
+        `✅ تم إضافة المنتج "${product.name_ar}" بنجاح (ID: ${docRef.id})`
+      );
+    } catch (error) {
+      console.error(`❌ خطأ أثناء إضافة المنتج "${product.name_ar}":`, error);
     }
-
-    if (searchBox) {
-      searchBox.addEventListener("input", () => {
-        const keyword = searchBox.value.trim().toLowerCase();
-        const filtered = products.filter(
-          (p) =>
-            p.name_ar.toLowerCase().includes(keyword) ||
-            p.name_en.toLowerCase().includes(keyword) ||
-            p.id.toLowerCase().includes(keyword)
-        );
-        displayProducts(filtered);
-      });
-    }
-
-    displayProducts(products);
-  } catch (error) {
-    console.error("Error loading products:", error);
-    const container = document.getElementById("product-container");
-    container.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
-                <h3 class="text-danger">حدث خطأ في تحميل المنتجات</h3>
-                <p class="text-muted">الرجاء المحاولة لاحقاً</p>
-            </div>
-        `;
   }
 }
+console.log("test");
+addMultipleProducts(products);
 
-document.addEventListener("DOMContentLoaded", loadProducts);
+// // this products.json
+// // loadProducts();
+// import { db } from "./firebase-connection.js";
+
+// // 3. تحميل البيانات من ملف JSON محلي
+// async function loadJSONData() {
+//   const response = await fetch("./products.json"); // تأكد من أن الملف في نفس المسار
+//   const data = await response.json();
+//   return data;
+// }
+
+// // 4. رفع البيانات إلى Firebase
+// async function uploadProductsToFirebase(productsData) {
+//   for (let product of productsData) {
+//     try {
+//       await addDoc(collection(db, "products"), product);
+//       console.log("تم رفع المنتج بنجاح:", product.name_ar);
+//     } catch (e) {
+//       console.error("خطأ في رفع المنتج:", product.name_ar, e);
+//     }
+//   }
+// }
+
+// // 5. دمج تحميل البيانات مع الرفع
+// async function syncProductsWithFirebase() {
+//   const products = await loadJSONData();
+//   await uploadProductsToFirebase(products);
+// }
+
+// // 6. استدعاء الدالة لرفع البيانات
+// syncProductsWithFirebase();
