@@ -2,12 +2,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import {
   getFirestore,
   collection,
-  getDocs,
   addDoc,
+  getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-// import { db } from "./firebase-connection.js"; // تأكد من مسار الاتصال بـ Firebase
 
-// 1. firebaseConfig
+// 1. Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyDur0lP8dyY7Rmv40TS8BMtTe1DOdb44zw",
   authDomain: "chemajet-store-f872f.firebaseapp.com",
@@ -18,111 +17,103 @@ const firebaseConfig = {
   measurementId: "G-SYHPQFZFR3",
 };
 
-// 2. Initialize Firebase
+// 2. Init Firebase
 const app = initializeApp(firebaseConfig);
-
-// 3. Get Firestore
 const db = getFirestore(app);
 
-// 4. Load and display products
-const container = document.getElementById("product-container");
+// 3. المنتجات
+const products = [
+  {
+    sort: 1,
+    productName: "Almond",
+    description: "منتج لوز ممتاز",
+    img: "./img/almond-mor.jpg",
+  },
+  {
+    sort: 2,
+    productName: "Rose Oil",
+    description: "زيت الورد الطبيعي",
+    img: "./img/rose-oil.jpg",
+  },
+  {
+    sort: 3,
+    productName: "Olive Oil",
+    description: "زيت الزيتون الطبيعي",
+    img: "./img/rose-oil.jpg",
+  },
+  {
+    sort: 4,
+    productName: "Mint Oil",
+    description: "زيت نعناع",
+    img: "./img/rose-oil.jpg",
+  },
+];
 
-async function loadProducts() {
-  const querySnapshot = await getDocs(collection(db, "products"));
-  querySnapshot((doc) => {
+// 4. دالة لإضافة المنتجات الجديدة فقط
+async function addNewProductsOnly(products) {
+  const existingProducts = await getDocs(collection(db, "products"));
+  const existingNames = [];
+
+  existingProducts.forEach((doc) => {
+    const data = doc.data();
+    if (data.productName) {
+      existingNames.push(data.productName.toLowerCase().trim());
+    }
+  });
+
+  for (const product of products) {
+    const nameKey = product.productName.toLowerCase().trim();
+    if (!existingNames.includes(nameKey)) {
+      try {
+        await addDoc(collection(db, "products"), product); // لازم await هنا
+        console.log(`✅ أُضيف المنتج الجديد: ${product.productName}`);
+      } catch (error) {
+        console.error(`❌ خطأ عند إضافة المنتج: ${product.productName}`, error);
+      }
+    } else {
+      console.log(`⚠️ المنتج موجود بالفعل: ${product.productName}`);
+    }
+  }
+}
+
+// 5. دالة عرض المنتجات
+async function displayProducts() {
+  const container = document.getElementById("product-container");
+  container.innerHTML = ""; // تنظف الأول
+
+  const snapshot = await getDocs(collection(db, "products"));
+  snapshot.forEach((doc) => {
     const product = doc.data();
     container.innerHTML += `
       <div class="col-md-4 mb-4">
         <div class="card">
-          <img src="${product.image}" class="card-img-top" alt="${
-      product.name_ar
-    }">
+          <img src="${product.img}" class="card-img-top" alt="${product.productName}">
           <div class="card-body text-center">
-            <h5 class="card-title">${product.name_ar}</h5>
-            <p class="card-text">${product.name_en}</p>
-            <p class="card-text">النسبة: ${product.assay}</p>
-            <p class="card-text">الكود: ${doc.id}</p>
-            <p class="card-text fw-bold text-success">السعر: ${
-              product.price ?? "غير محدد"
-            } جنيه</p>
+            <h5 class="card-title">${product.productName}</h5>
+            <p class="card-text">${product.description}</p>
+                        <p class="product-price">0 جنيه</p>
+
+            <p class="card-text text-muted">ID: ${doc.id}</p>
+            <a href="https://wa.me/201234567890" target="_blank" class="order-btn">اطلب الآن</a>
+
           </div>
         </div>
       </div>
     `;
+      
   });
 }
-loadProducts();
+// add products 
+let AddProducts = document.getElementById("add-product");
+AddProducts.addEventListener("click", async () =>
+{
+      await addNewProductsOnly(products);
+      await displayProducts();
+});
+window.onload = displayProducts();
 
-//=================
-// import {
-//   collection,
-//   addDoc,
-// } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-// import { db } from "./firebase-connection.js"; // تأكد من مسار الاتصال بـ Firebase
-
-let products = [
-  {
-    sort: 1,
-    productName: "Product 1",
-    description: "test 2",
-    img: "./img/logo",
-  },
-  {
-    sort: 2,
-    productName: "Product 2",
-    description: "test 2",
-    img: "./img/logo",
-  },
-];
-
-async function addMultipleProducts(products) {
-  if (!Array.isArray(products)) {
-    console.error("❌ المدخلات يجب أن تكون مصفوفة من المنتجات");
-    return;
-  }
-
-  for (const product of products) {
-    try {
-      const docRef = await addDoc(collection(db, "products"), product);
-      console.log(
-        `✅ تم إضافة المنتج "${product.name_ar}" بنجاح (ID: ${docRef.id})`
-      );
-    } catch (error) {
-      console.error(`❌ خطأ أثناء إضافة المنتج "${product.name_ar}":`, error);
-    }
-  }
-}
-console.log("test");
-addMultipleProducts(products);
-
-// // this products.json
-// // loadProducts();
-// import { db } from "./firebase-connection.js";
-
-// // 3. تحميل البيانات من ملف JSON محلي
-// async function loadJSONData() {
-//   const response = await fetch("./products.json"); // تأكد من أن الملف في نفس المسار
-//   const data = await response.json();
-//   return data;
-// }
-
-// // 4. رفع البيانات إلى Firebase
-// async function uploadProductsToFirebase(productsData) {
-//   for (let product of productsData) {
-//     try {
-//       await addDoc(collection(db, "products"), product);
-//       console.log("تم رفع المنتج بنجاح:", product.name_ar);
-//     } catch (e) {
-//       console.error("خطأ في رفع المنتج:", product.name_ar, e);
-//     }
-//   }
-// }
-
-// // 5. دمج تحميل البيانات مع الرفع
-// async function syncProductsWithFirebase() {
-//   const products = await loadJSONData();
-//   await uploadProductsToFirebase(products);
-// }
-
-// // 6. استدعاء الدالة لرفع البيانات
-// syncProductsWithFirebase();
+// 6. تنفيذ العمليات بعد تحميل الصفحة
+// window.addEventListener("DOMContentLoaded", async () => {
+//   await addNewProductsOnly(products);
+//   await displayProducts();
+// });

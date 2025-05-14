@@ -1,17 +1,20 @@
 /* Arabic Font */
 body {
-  font-family: "Tajawal", sans-serif;
+  font-family: 'Tajawal', sans-serif;
 }
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6") no-repeat center center/cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6')
+      no-repeat center center/cover;
   min-height: 100vh;
+  .container {
+    .display-hero {
+      margin-top: 30%;
+    }
+  }
 }
-.hero-section .container .display-hero {
-  margin-top: 30%;
-}
-
 /*header*/
 .offer {
   border: 1px solid #1a8754;
@@ -19,14 +22,12 @@ body {
   position: relative;
   height: 50px;
 }
-
 .offer-text {
   position: absolute;
   white-space: nowrap;
   animation: scrollText 10s linear infinite;
   color: #1a8754;
 }
-
 /*header*/
 /* Product Cards */
 .product-card {
@@ -56,12 +57,12 @@ body {
 }
 
 /* RTL Fixes */
-[dir=rtl] .navbar-brand {
+[dir='rtl'] .navbar-brand {
   margin-right: 0;
   margin-left: 1rem;
 }
 
-[dir=rtl] .me-3 {
+[dir='rtl'] .me-3 {
   margin-right: 0 !important;
   margin-left: 1rem !important;
 }
@@ -75,4 +76,4 @@ body {
     left: -100%;
   }
 }
-/*animation*//*# sourceMappingURL=style.css.map */
+/*animation*/
