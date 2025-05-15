@@ -37,15 +37,27 @@ const products = [
   },
   {
     sort: 3,
-    productName: "Olive Oil",
-    description: "زيت الزيتون الطبيعي",
-    img: "./img/rose-oil.jpg",
+    productName: "Argan-Oil",
+    description: "زيت الارجان الطبيعي",
+    img: "./img/argan.jpg",
   },
   {
     sort: 4,
     productName: "Mint Oil",
     description: "زيت نعناع",
-    img: "./img/rose-oil.jpg",
+    img: "./img/-ment.jpg",
+  },
+  {
+    sort: 5,
+    productName: "stronela Oil",
+    description: "زيت السترونيلا",
+    img: "./img/stronela-oil.jpg",
+  },
+  {
+    sort: 5,
+    productName: "ward Oil",
+    description: "مياه الورد الطبيعيه",
+    img: "./img/ward.jpeg",
   },
 ];
 
@@ -100,15 +112,13 @@ async function displayProducts() {
         </div>
       </div>
     `;
-      
   });
 }
-// add products 
+// add products
 let AddProducts = document.getElementById("add-product");
-AddProducts.addEventListener("click", async () =>
-{
-      await addNewProductsOnly(products);
-      await displayProducts();
+AddProducts.addEventListener("click", async () => {
+  await addNewProductsOnly(products);
+  await displayProducts();
 });
 window.onload = displayProducts();
 
