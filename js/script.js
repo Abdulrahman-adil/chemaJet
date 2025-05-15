@@ -6,7 +6,6 @@ import {
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// 1. Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyDur0lP8dyY7Rmv40TS8BMtTe1DOdb44zw",
   authDomain: "chemajet-store-f872f.firebaseapp.com",
@@ -17,11 +16,9 @@ const firebaseConfig = {
   measurementId: "G-SYHPQFZFR3",
 };
 
-// 2. Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 3. المنتجات
 const products = [
   {
     sort: 1,
@@ -54,14 +51,14 @@ const products = [
     img: "./img/stronela-oil.jpg",
   },
   {
-    sort: 5,
+    sort: 6,
     productName: "ward Oil",
     description: "مياه الورد الطبيعيه",
     img: "./img/ward.jpeg",
   },
 ];
 
-// 4. دالة لإضافة المنتجات الجديدة فقط
+// دالة الإضافة
 async function addNewProductsOnly(products) {
   const existingProducts = await getDocs(collection(db, "products"));
   const existingNames = [];
@@ -77,25 +74,39 @@ async function addNewProductsOnly(products) {
     const nameKey = product.productName.toLowerCase().trim();
     if (!existingNames.includes(nameKey)) {
       try {
-        await addDoc(collection(db, "products"), product); // لازم await هنا
-        console.log(`✅ أُضيف المنتج الجديد: ${product.productName}`);
+        await addDoc(collection(db, "products"), product);
+        console.log(`✅ أُضيف المنتج: ${product.productName}`);
       } catch (error) {
-        console.error(`❌ خطأ عند إضافة المنتج: ${product.productName}`, error);
+        console.error(`❌ خطأ في الإضافة: ${product.productName}`, error);
       }
     } else {
-      console.log(`⚠️ المنتج موجود بالفعل: ${product.productName}`);
+      console.log(`⚠️ المنتج موجود مسبقًا: ${product.productName}`);
     }
   }
 }
 
-// 5. دالة عرض المنتجات
+// عرض المنتجات
+let allProducts = [];
 async function displayProducts() {
   const container = document.getElementById("product-container");
-  container.innerHTML = ""; // تنظف الأول
+  container.innerHTML = "";
 
   const snapshot = await getDocs(collection(db, "products"));
+  allProducts = [];
   snapshot.forEach((doc) => {
     const product = doc.data();
+    product.id = doc.id;
+    allProducts.push(product);
+  });
+
+  renderProjects(allProducts);
+}
+
+// display products
+function renderProjects(products) {
+  const container = document.getElementById("product-container");
+  container.innerHTML = "";
+  products.forEach((product) => {
     container.innerHTML += `
       <div class="col-md-4 mb-4">
         <div class="card">
@@ -103,27 +114,36 @@ async function displayProducts() {
           <div class="card-body text-center">
             <h5 class="card-title">${product.productName}</h5>
             <p class="card-text">${product.description}</p>
-                        <p class="product-price">0 جنيه</p>
-
-            <p class="card-text text-muted">ID: ${doc.id}</p>
+            <p class="product-price">0 جنيه</p>
+            <p class="card-text text-muted">ID: ${product.id}</p>
             <a href="https://wa.me/201234567890" target="_blank" class="order-btn">اطلب الآن</a>
-
           </div>
         </div>
       </div>
     `;
   });
 }
-// add products
-let AddProducts = document.getElementById("add-product");
-AddProducts.addEventListener("click", async () => {
-  await addNewProductsOnly(products);
-  await displayProducts();
-});
-window.onload = displayProducts();
 
-// 6. تنفيذ العمليات بعد تحميل الصفحة
-// window.addEventListener("DOMContentLoaded", async () => {
-//   await addNewProductsOnly(products);
-//   await displayProducts();
-// });
+// search
+let search = document.getElementById("search-box");
+search.addEventListener("input", function () {
+  let searchValue = this.value.toLowerCase();
+  let productsFiltered = allProducts.filter((product) => {
+    return (
+      product.productName.toLowerCase().includes(searchValue) ||
+      product.description.toLowerCase().includes(searchValue)
+    );
+  });
+  renderProjects(productsFiltered);
+});
+
+// display products on load
+window.addEventListener("DOMContentLoaded", () => {
+  //Add button for test
+  let AddProducts = document.getElementById("add-product");
+  AddProducts.addEventListener("click", async () => {
+    await addNewProductsOnly(products);
+    await displayProducts();
+  });
+  displayProducts();
+});
